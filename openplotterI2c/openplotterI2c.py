@@ -30,6 +30,8 @@ class MyFrame(wx.Frame):
 	def __init__(self):
 		self.conf = conf.Conf()
 		self.conf_folder = self.conf.conf_folder
+		if self.conf.get('GENERAL', 'debug') == 'yes': self.debug = True
+		else: self.debug = False
 		self.platform = platform.Platform()
 		self.currentdir = os.path.dirname(os.path.abspath(__file__))
 		self.currentLanguage = self.conf.get('GENERAL', 'lang')
@@ -70,10 +72,6 @@ class MyFrame(wx.Frame):
 		self.toolbar1.AddSeparator()
 		self.refreshButton = self.toolbar1.AddTool(104, _('Refresh'), wx.Bitmap(self.currentdir+"/data/refresh.png"))
 		self.Bind(wx.EVT_TOOL, self.OnRefreshButton, self.refreshButton)
-		self.toolbar1.AddSeparator()
-		toolRescue = self.toolbar1.AddCheckTool(107, _('Rescue'), wx.Bitmap(self.currentdir+"/data/rescue.png"))
-		self.Bind(wx.EVT_TOOL, self.onToolRescue, toolRescue)
-		if self.conf.get('GENERAL', 'rescue') == 'yes': self.toolbar1.ToggleTool(107,True)
 
 		self.notebook = wx.Notebook(self)
 		self.notebook.Bind(wx.EVT_NOTEBOOK_PAGE_CHANGED, self.onTabChange)
@@ -116,12 +114,11 @@ class MyFrame(wx.Frame):
 		self.ShowStatusBar(w_msg, wx.BLACK) 
 
 	def ShowStatusBarYELLOW(self, w_msg):
-		self.ShowStatusBar(w_msg,(255,140,0))
+		self.ShowStatusBar(w_msg,(255,140,0)) 
 
 	def onTabChange(self, event):
-		try:
-			self.SetStatusText('')
-		except:pass
+		try: self.SetStatusText('')
+		except: pass
 
 	def OnToolHelp(self, event): 
 		url = "/usr/share/openplotter-doc/i2c/i2c_app.html"
@@ -132,12 +129,6 @@ class MyFrame(wx.Frame):
 		subprocess.Popen('openplotter-settings')
 
 	def OnRefreshButton(self, e):
-		self.readSensors()
-
-	def onToolRescue(self,e):
-		if self.toolbar1.GetToolState(107): self.conf.set('GENERAL', 'rescue', 'yes')
-		else: self.conf.set('GENERAL', 'rescue', 'no')
-		self.OnApply()
 		self.readSensors()
 
 	def pageOutput(self):
@@ -161,18 +152,13 @@ class MyFrame(wx.Frame):
 
 	def pageI2c(self):
 		self.listSensors = wx.ListCtrl(self.i2c, -1, style=wx.LC_REPORT | wx.LC_SINGLE_SEL | wx.LC_HRULES, size=(-1,200))
-		self.listSensors.InsertColumn(0, ' ', width=16)
+		self.listSensors.InsertColumn(0, 'Index', width=50)
 		self.listSensors.InsertColumn(1, _('Name'), width=120)
 		self.listSensors.InsertColumn(2, _('Address'), width=60)
-		self.listSensors.InsertColumn(3, _('Channel'), width=60)
+		self.listSensors.InsertColumn(3, _('Channel'), width=65)
 		self.listSensors.InsertColumn(4, _('Magnitude'), width=90)
-		self.listSensors.InsertColumn(5, _('Signal K key'), width=220)
+		self.listSensors.InsertColumn(5, _('Signal K key'), width=270)
 		self.listSensors.InsertColumn(6, _('Rate'), width=40)
-		self.listSensors.InsertColumn(7, _('Offset'), width=50)
-		self.listSensors.InsertColumn(8, _('Scaling factor'), width=100)
-		self.listSensors.InsertColumn(9, _('Raw'), width=40)
-		self.listSensors.InsertColumn(10, _('Sensor Settings'), width=200)
-		self.listSensors.InsertColumn(11, _('Magnitude Settings'), width=200)
 		self.listSensors.Bind(wx.EVT_LIST_ITEM_SELECTED, self.onListSensorsSelected)
 		self.listSensors.Bind(wx.EVT_LIST_ITEM_DESELECTED, self.onListSensorsDeselected)
 		self.listSensors.SetTextColour(wx.BLACK)
@@ -194,7 +180,6 @@ class MyFrame(wx.Frame):
 	def readSensors(self):
 		self.listSensors.DeleteAllItems()
 		self.onListSensorsDeselected()
-		self.ShowStatusBarBLACK(' ')
 
 		self.toolbar1.EnableTool(103,False)
 		self.toolbar2.EnableTool(201,False)
@@ -233,31 +218,22 @@ class MyFrame(wx.Frame):
 				nameMagnitude = magnitude
 				SKkey = self.i2c_sensors[name]['data'][index]['SKkey']
 				rate = self.i2c_sensors[name]['data'][index]['rate']
-				offset = self.i2c_sensors[name]['data'][index]['offset']
-				if 'factor' in self.i2c_sensors[name]['data'][index]: factor = self.i2c_sensors[name]['data'][index]['factor']
-				else: factor = 1
-				if 'raw' in self.i2c_sensors[name]['data'][index]: raw = self.i2c_sensors[name]['data'][index]['raw']
-				else: raw = False
-				if raw: raw2 = _('yes')
-				else: raw2 = _('no')
-				if 'sensorSettings' in self.i2c_sensors[name]: sensorSettings = self.i2c_sensors[name]['sensorSettings']
-				else: sensorSettings = ''
-				if 'magnitudeSettings' in self.i2c_sensors[name]['data'][index]: magnitudeSettings = self.i2c_sensors[name]['data'][index]['magnitudeSettings']
-				else: magnitudeSettings = ''
-				self.listSensors.Append([str(c),name, address, str(channel), nameMagnitude, SKkey, str(rate), str(offset), str(factor), raw2, sensorSettings, magnitudeSettings])
+				self.listSensors.Append([str(c),name, address, str(channel), nameMagnitude, SKkey, str(rate)])
 				c = c + 1
 				if SKkey: self.listSensors.SetItemBackgroundColour(self.listSensors.GetItemCount()-1,(255,215,0))
 
-		if self.i2c_sensors:
-			test = subprocess.check_output(['ps','aux']).decode(sys.stdin.encoding)
-			if not 'openplotter-i2c-read' in test:
-				if self.conf.get('GENERAL', 'rescue') != 'yes': subprocess.Popen('openplotter-i2c-read')
-		else: subprocess.call(['pkill', '-f', 'openplotter-i2c-read'])
-
 	def OnAddButton(self,e):
+		if self.platform.isRPI:
+			if self.platform.isInstalled('raspi-config'):
+				output = subprocess.check_output('raspi-config nonint get_i2c', shell=True).decode(sys.stdin.encoding)
+				if '1' in output:
+					msg = _('Please enable I2C interface in Preferences -> Raspberry Pi configuration -> Interfaces.')
+					self.ShowStatusBarRED(msg)
+					return
 		try:
 			dlg = addI2c(self.i2c_sensors_def)
-		except:
+		except Exception as e: 
+			if self.debug: print(str(e))
 			self.readSensors()
 			return
 		res = dlg.ShowModal()
@@ -322,17 +298,17 @@ class MyFrame(wx.Frame):
 		sk = sk.GetText()
 		rate = self.listSensors.GetItem(selected, 6)
 		rate = rate.GetText()
-		offset = self.listSensors.GetItem(selected, 7)
-		offset = offset.GetText()
-		factor = self.listSensors.GetItem(selected, 8)
-		factor = factor.GetText()
+		if 'offset' in self.i2c_sensors[name]['data'][int(index)]:
+			offset = self.i2c_sensors[name]['data'][int(index)]['offset']
+		if 'factor' in self.i2c_sensors[name]['data'][int(index)]:
+			factor = self.i2c_sensors[name]['data'][int(index)]['factor']
 		raw = False
 		if 'raw' in self.i2c_sensors[name]['data'][int(index)]:
 			raw = self.i2c_sensors[name]['data'][int(index)]['raw']
 		magnitudeSettings = ''
 		if 'magnitudeSettings' in self.i2c_sensors[name]['data'][int(index)]:
 			magnitudeSettings = self.i2c_sensors[name]['data'][int(index)]['magnitudeSettings']
-		dlg = editI2c(name,magn,sk,rate,offset,factor,raw,magnitudeSettings)
+		dlg = editI2c(name,magn,sk,rate,str(offset),str(factor),raw,magnitudeSettings)
 		res = dlg.ShowModal()
 		if res == wx.ID_OK:
 			sk = str(dlg.SKkey.GetValue())
@@ -370,15 +346,14 @@ class MyFrame(wx.Frame):
 
 	def OnApply(self):
 		self.conf.set('I2C', 'sensors', str(self.i2c_sensors))
-		subprocess.call(['pkill', '-f', 'openplotter-i2c-read'])
 		try: i2c_sensors = eval(self.conf.get('I2C', 'sensors'))
 		except: i2c_sensors = []
 		if i2c_sensors:
-			if self.conf.get('GENERAL', 'rescue') != 'yes':
-				subprocess.Popen('openplotter-i2c-read')
-				self.ShowStatusBarGREEN(_('I2C service is enabled'))
+			subprocess.call([self.platform.admin, 'python3', self.currentdir+'/service.py', 'enable'])
+			self.ShowStatusBarGREEN(_('I2C service is enabled'))
 		else:
-			self.ShowStatusBarYELLOW(_('There is nothing to send. I2C service is disabled'))
+			subprocess.call([self.platform.admin, 'python3', self.currentdir+'/service.py', 'disable'])
+			self.ShowStatusBarBLACK(_('I2C service is disabled'))
 
 	def onListSensorsSelected(self,e):
 		i = e.GetIndex()

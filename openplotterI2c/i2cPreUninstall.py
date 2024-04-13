@@ -25,6 +25,14 @@ def main():
 	currentLanguage = conf2.get('GENERAL', 'lang')
 	language.Language(currentdir,'openplotter-i2c',currentLanguage)
 
+	print(_('Removing services...'))
+	try:
+		subprocess.call(['systemctl', 'disable', 'openplotter-i2c-read'])
+		subprocess.call(['systemctl', 'stop', 'openplotter-i2c-read'])
+		subprocess.call(['systemctl', 'daemon-reload'])
+		print(_('DONE'))
+	except Exception as e: print(_('FAILED: ')+str(e))
+
 
 	print(_('Removing version...'))
 	try:
