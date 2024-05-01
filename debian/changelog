@@ -1,3 +1,9 @@
+openplotter-i2c (3.4.0-stable) bullseye; urgency=medium
+
+  * Add support for AHTx0 sensors
+
+ -- Sailoog <info@sailoog.com>  Wed, 01 May 2024 13:13:40 +0200
+
 openplotter-i2c (3.3.12-stable) bullseye; urgency=medium
 
   * Add Signal K reconnection option
