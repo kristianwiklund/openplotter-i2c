@@ -1,3 +1,9 @@
+openplotter-i2c (4.0.12-beta) bookworm; urgency=medium
+
+  * v4
+
+ -- Sailoog <info@sailoog.com>  Sat, 02 Mar 2024 10:39:39 +0100
+
 openplotter-i2c (3.3.12-stable) bullseye; urgency=medium
 
   * Add Signal K reconnection option
