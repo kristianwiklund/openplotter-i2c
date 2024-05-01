@@ -270,6 +270,14 @@ def main():
 					for ii in range(4):
 						if 'magnitudeSettings' in instances[-1]['sensor']['data'][ii]:
 							instances[-1]['sensor']['data'][ii]['ranges'] = getRanges(instances[-1]['sensor']['data'][ii]['magnitudeSettings'])
+				elif i2c_sensors[i]['type'] == 'AHTX0':
+					import adafruit_ahtx0
+					if i2c_sensors[i]['channel'] == 0:
+						if i2c_sensors[i]['address']:
+							instances.append({'name':i,'type':'AHTX0','tick':[now,now],'sensor':i2c_sensors[i],'object':adafruit_ahtx0.AHTx0(i2c, address=int(i2c_sensors[i]['address'], 16))})
+					else:
+						if i2c_sensors[i]['address']:
+							instances.append({'name':i,'type':'ATHX0','tick':[now,now],'sensor':i2c_sensors[i],'object':adafruit_ahtx0.AHTx0(muxInstances[i2c_sensors[i]['address']][i2c_sensors[i]['channel']-1])})
 
 			except Exception as e:
 				if debug: print('Error processing '+i+': '+str(e))
@@ -677,6 +685,35 @@ def main():
 											A0voltage = i['sensor']['data'][ii]['object'].voltage
 											Erg = getPaths2(Erg, A0Ranges, A0value, A0voltage, A0key, A0offset, A0factor, A0raw)
 											instances[index]['tick'][ii] = time.time()
+
+							elif i['type'] == 'AHTX0':
+								temperatureKey = i['sensor']['data'][0]['SKkey']
+								humidityKey = i['sensor']['data'][1]['SKkey']
+								if temperatureKey:
+									temperatureRaw = i['sensor']['data'][0]['raw']
+									temperatureRate = i['sensor']['data'][0]['rate']
+									temperatureOffset = i['sensor']['data'][0]['offset']
+									temperatureFactor = i['sensor']['data'][0]['factor']
+									tick0 = time.time()
+									if tick0 - i['tick'][0] > temperatureRate:
+										try: temperatureValue = round(i['object'].temperature,1)
+										except: temperatureValue = i['object'].temperature
+										try: temperatureValue2 = float(temperatureValue)+273.15
+										except: temperatureValue2 = ''
+										Erg = getPaths(Erg,temperatureValue,temperatureValue2,temperatureKey,temperatureOffset,temperatureFactor,temperatureRaw)
+										instances[index]['tick'][0] = time.time()
+								if humidityKey:
+									humidityRaw = i['sensor']['data'][1]['raw']
+									humidityRate = i['sensor']['data'][1]['rate']
+									humidityOffset = i['sensor']['data'][1]['offset']
+									humidityFactor = i['sensor']['data'][1]['factor']
+									tick0 = time.time()
+									if tick0 - i['tick'][1] > humidityRate:
+										try: humidityValue = round(i['object'].relative_humidity,1)
+										except: humidityValue = i['object'].relative_humidity
+										humidityValue2 = humidityValue
+										Erg = getPaths(Erg,humidityValue,humidityValue2,humidityKey,humidityOffset,humidityFactor,humidityRaw)
+										instances[index]['tick'][1] = time.time()
 
 						except Exception as e:
 							if debug: print('Error reading '+i['name']+': '+str(e))
