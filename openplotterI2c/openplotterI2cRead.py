@@ -344,8 +344,8 @@ def main():
 									humidityFactor = i['sensor']['data'][2]['factor']
 									tick0 = time.time()
 									if tick0 - i['tick'][2] > humidityRate:
-										try: humidityValue = round(i['object'].humidity,2)
-										except: humidityValue = i['object'].humidity
+										try: humidityValue = round(float(i['object'].humidity)/100.0,3)
+										except: humidityValue = float(i['object'].humidity)/100.0
 										humidityValue2 = humidityValue
 										Erg = getPaths(Erg,humidityValue,humidityValue2,humidityKey,humidityOffset,humidityFactor,humidityRaw)
 										instances[index]['tick'][2] = time.time()
@@ -399,8 +399,8 @@ def main():
 									humidityFactor = i['sensor']['data'][2]['factor']
 									tick0 = time.time()
 									if tick0 - i['tick'][2] > humidityRate:
-										try: humidityValue = round(i['object'].humidity,1)
-										except: humidityValue = i['object'].humidity
+										try: humidityValue = round(float(i['object'].humidity)/100.0,3)
+										except: humidityValue = float(i['object'].humidity)/100.0
 										humidityValue2 = humidityValue
 										Erg = getPaths(Erg,humidityValue,humidityValue2,humidityKey,humidityOffset,humidityFactor,humidityRaw)
 										instances[index]['tick'][2] = time.time()
@@ -475,8 +475,8 @@ def main():
 									humidityFactor = i['sensor']['data'][0]['factor']
 									tick0 = time.time()
 									if tick0 - i['tick'][0] > humidityRate:
-										try: humidityValue = round(i['object'].relative_humidity,1)
-										except: humidityValue = i['object'].relative_humidity
+										try: humidityValue = round(float(i['object'].relative_humidity)/100.0,3)
+										except: humidityValue = float(i['object'].relative_humidity)/100.0
 										humidityValue2 = humidityValue
 										Erg = getPaths(Erg,humidityValue,humidityValue2,humidityKey,humidityOffset,humidityFactor,humidityRaw)
 										instances[index]['tick'][0] = time.time()
