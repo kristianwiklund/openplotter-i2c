@@ -185,6 +185,7 @@ class MyFrame(wx.Frame):
 		self.toolbar1.EnableTool(103,False)
 		self.toolbar2.EnableTool(201,False)
 
+		time.sleep(1)
 		data = self.conf.get('I2C', 'sensors')
 		try: self.i2c_sensors = eval(data)
 		except: self.i2c_sensors = {}
@@ -222,6 +223,9 @@ class MyFrame(wx.Frame):
 				self.listSensors.Append([str(c),name, address, str(channel), nameMagnitude, SKkey, str(rate)])
 				c = c + 1
 				if SKkey: self.listSensors.SetItemBackgroundColour(self.listSensors.GetItemCount()-1,(255,215,0))
+				if 'error' in self.i2c_sensors[name]:
+					if self.i2c_sensors[name]['error']:
+						self.listSensors.SetItemBackgroundColour(self.listSensors.GetItemCount()-1,(255,0,0))
 
 	def OnAddButton(self,e):
 		if self.platform.isRPI:
@@ -362,11 +366,17 @@ class MyFrame(wx.Frame):
 		if not valid: return
 		self.toolbar2.EnableTool(202,True)
 		self.toolbar2.EnableTool(203,True)
+		name = self.listSensors.GetItem(i, 1)
+		name = name.GetText()
+		if 'error' in self.i2c_sensors[name]:
+			if self.i2c_sensors[name]['error']:
+				self.ShowStatusBarRED(self.i2c_sensors[name]['error'])
 
 	def onListSensorsDeselected(self,e=0):
 		self.toolbar2.EnableTool(201,True)
 		self.toolbar2.EnableTool(202,False)
 		self.toolbar2.EnableTool(203,False)
+		self.ShowStatusBarBLACK('')
 
 ################################################################################
 

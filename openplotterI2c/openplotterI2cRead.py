@@ -287,10 +287,14 @@ def main():
 								instances.append({'name':i,'type':'ATHX0','tick':[now,now],'sensor':i2c_sensors[i],'object':adafruit_ahtx0.AHTx0(muxInstances[i2c_sensors[i]['address']][i2c_sensors[i]['channel']-1])})
 
 				except Exception as e:
+					error = 'Error processing '+i+': '+str(e)
+					i2c_sensors[i]['error'] = error
 					if debug: 
-						print('Error processing '+i+': '+str(e))
+						print(error)
 						sys.stdout.flush()
+				else: i2c_sensors[i]['error'] = ''
 
+			conf2.set('I2C', 'sensors', str(i2c_sensors))
 
 			#read sensors
 			if not instances:

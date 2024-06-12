@@ -75,6 +75,11 @@ class Check():
 				msg = _('service not running')
 				if red: red += '\n   '+msg
 				else: red = msg
+			for i in i2c_sensors:
+				if 'error' in i2c_sensors[i]:
+					if i2c_sensors[i]['error']:
+						if not red: red = i2c_sensors[i]['error']
+						else: red+= '\n    '+i2c_sensors[i]['error']
 		else:
 			try:
 				subprocess.check_output(['systemctl', 'is-active', 'openplotter-i2c-read.service']).decode(sys.stdin.encoding)
