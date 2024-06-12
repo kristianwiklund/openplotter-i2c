@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: openplotter\n"
-"POT-Creation-Date: 2023-02-08 21:07+0100\n"
-"PO-Revision-Date: 2023-02-09 19:21+0100\n"
+"POT-Creation-Date: 2024-05-20 11:47+0200\n"
+"PO-Revision-Date: 2024-06-12 18:13+0200\n"
 "Last-Translator: \n"
 "Language-Team: French\n"
 "Language: fr\n"
@@ -33,302 +33,247 @@ msgid "Installing python packages..."
 msgstr "Installation des paquets Python..."
 
 #: i2cPostInstall.py:32 i2cPostInstall.py:41 i2cPostInstall.py:47
-#: i2cPreUninstall.py:32
+#: i2cPreUninstall.py:33 i2cPreUninstall.py:40
 msgid "DONE"
 msgstr "TERMINÉ"
 
 #: i2cPostInstall.py:33 i2cPostInstall.py:42 i2cPostInstall.py:48
-#: i2cPreUninstall.py:33
+#: i2cPreUninstall.py:34 i2cPreUninstall.py:41
 msgid "FAILED: "
 msgstr "ÉCHEC: "
 
 #: i2cPostInstall.py:35
-msgid "Checking access to Signal K server..."
-msgstr "Vérification de l'accès au serveur Signal K..."
+msgid "Creating services..."
+msgstr ""
 
 #: i2cPostInstall.py:44
 msgid "Setting version..."
 msgstr "Réglage de la version..."
 
-#: i2cPreUninstall.py:29
+#: i2cPreUninstall.py:28
+msgid "Removing services..."
+msgstr ""
+
+#: i2cPreUninstall.py:37
 msgid "Removing version..."
 msgstr "Suppression de la version..."
 
-#: openplotterI2c.py:42
-msgid "bus voltage"
-msgstr "tension du bus"
-
-#: openplotterI2c.py:42
-msgid "shunt voltage"
-msgstr "tension du shunt"
-
-#: openplotterI2c.py:42 openplotterI2c.py:43
-msgid "current"
-msgstr "courant"
-
-#: openplotterI2c.py:42 openplotterI2c.py:43
-msgid "power"
-msgstr "alimentation"
-
-#: openplotterI2c.py:43
-msgid "voltage"
-msgstr "voltage"
-
-#: openplotterI2c.py:44
-msgid "illuminance"
-msgstr "éclairement"
-
-#: openplotterI2c.py:45 openplotterI2c.py:46 openplotterI2c.py:47
-#: openplotterI2c.py:48 openplotterI2c.py:50 openplotterI2c.py:51
-msgid "pressure"
-msgstr "pression"
-
-#: openplotterI2c.py:45 openplotterI2c.py:46 openplotterI2c.py:47
-#: openplotterI2c.py:48 openplotterI2c.py:49 openplotterI2c.py:50
-#: openplotterI2c.py:51
+#: openplotterI2c.py:43 openplotterI2c.py:47 openplotterI2c.py:48
+#: openplotterI2c.py:49 openplotterI2c.py:50 openplotterI2c.py:51
+#: openplotterI2c.py:52 openplotterI2c.py:53
 msgid "temperature"
 msgstr "température"
 
-#: openplotterI2c.py:45 openplotterI2c.py:46 openplotterI2c.py:49
+#: openplotterI2c.py:43 openplotterI2c.py:47 openplotterI2c.py:48
+#: openplotterI2c.py:51
 msgid "humidity"
 msgstr "humidité"
 
-#: openplotterI2c.py:45
-msgid "gas"
-msgstr ""
+#: openplotterI2c.py:44
+msgid "bus voltage"
+msgstr "tension du bus"
 
-#: openplotterI2c.py:63
+#: openplotterI2c.py:44
+msgid "shunt voltage"
+msgstr "tension du shunt"
+
+#: openplotterI2c.py:44 openplotterI2c.py:45
+msgid "current"
+msgstr "courant"
+
+#: openplotterI2c.py:44 openplotterI2c.py:45
+msgid "power"
+msgstr "alimentation"
+
+#: openplotterI2c.py:45
+msgid "voltage"
+msgstr "voltage"
+
+#: openplotterI2c.py:46
+msgid "illuminance"
+msgstr "éclairement"
+
+#: openplotterI2c.py:47 openplotterI2c.py:48 openplotterI2c.py:49
+#: openplotterI2c.py:50 openplotterI2c.py:52 openplotterI2c.py:53
+msgid "pressure"
+msgstr "pression"
+
+#: openplotterI2c.py:47
+msgid "gas"
+msgstr "essence"
+
+#: openplotterI2c.py:65
 msgid "Help"
 msgstr "Aide"
 
-#: openplotterI2c.py:66 openplotterI2c.py:453 openplotterI2c.py:574
+#: openplotterI2c.py:68 openplotterI2c.py:390 openplotterI2c.py:511
 msgid "Settings"
 msgstr "Paramètres"
 
-#: openplotterI2c.py:69
+#: openplotterI2c.py:71
 msgid "I2C Addresses"
 msgstr "Adresses I2C"
 
-#: openplotterI2c.py:72
+#: openplotterI2c.py:74
 msgid "Refresh"
 msgstr "Actualiser"
 
-#: openplotterI2c.py:75
-msgid "Approve"
-msgstr "Approuver"
-
-#: openplotterI2c.py:77
-msgid "Reconnect"
-msgstr ""
-
-#: openplotterI2c.py:80
-msgid "Rescue"
-msgstr ""
-
-#: openplotterI2c.py:88
+#: openplotterI2c.py:81
 msgid "Sensors"
 msgstr "Capteurs"
 
-#: openplotterI2c.py:176
+#: openplotterI2c.py:152
 msgid "Failed"
 msgstr "Échec"
 
-#: openplotterI2c.py:181
+#: openplotterI2c.py:157
 msgid "Name"
 msgstr "Nom"
 
-#: openplotterI2c.py:182
+#: openplotterI2c.py:158
 msgid "Address"
 msgstr "Adresse"
 
-#: openplotterI2c.py:183
+#: openplotterI2c.py:159
 msgid "Channel"
 msgstr "Canal"
 
-#: openplotterI2c.py:184
+#: openplotterI2c.py:160
 msgid "Magnitude"
 msgstr "Magnitude"
 
-#: openplotterI2c.py:185 openplotterI2c.py:547
+#: openplotterI2c.py:161 openplotterI2c.py:484
 msgid "Signal K key"
 msgstr "Clé Signal K"
 
-#: openplotterI2c.py:186
+#: openplotterI2c.py:162
 msgid "Rate"
 msgstr "Taux"
 
-#: openplotterI2c.py:187 openplotterI2c.py:566
-msgid "Offset"
-msgstr "Décalage"
-
-#: openplotterI2c.py:188 openplotterI2c.py:570
-msgid "Scaling factor"
-msgstr "Facteur d'échelle"
-
-#: openplotterI2c.py:189
-msgid "Raw"
-msgstr "Brut"
-
-#: openplotterI2c.py:190
-msgid "Sensor Settings"
-msgstr "Réglage des capteurs"
-
-#: openplotterI2c.py:191
-msgid "Magnitude Settings"
-msgstr "Paramètres de Magnitude"
-
-#: openplotterI2c.py:197
+#: openplotterI2c.py:168
 msgid "Add"
 msgstr "Ajouter"
 
-#: openplotterI2c.py:199
+#: openplotterI2c.py:170
 msgid "Remove"
 msgstr "Supprimer"
 
-#: openplotterI2c.py:202 openplotterI2c.py:541 openplotterI2c.py:551
+#: openplotterI2c.py:173 openplotterI2c.py:478 openplotterI2c.py:488
 msgid "Edit"
 msgstr "Modifier"
 
-#: openplotterI2c.py:223
-msgid " Press \"Approve\" and then \"Refresh\"."
-msgstr " Appuyez sur « Approuver », puis « Actualiser »."
-
-#: openplotterI2c.py:227
-msgid " Try \"Reconnect\"."
-msgstr ""
-
-#: openplotterI2c.py:231
-msgid " Press \"Refresh\"."
-msgstr " Appuyez sur \"Actualiser\"."
-
-#: openplotterI2c.py:250 startup.py:71
+#: openplotterI2c.py:197 openplotterI2c.py:231 startup.py:55
 msgid "Please enable I2C interface in Preferences -> Raspberry Pi configuration -> Interfaces."
 msgstr "Veuillez activer l'interface I2C dans Préférences -> Configuration Raspberry Pi -> Interfaces."
 
-#: openplotterI2c.py:280
-msgid "yes"
-msgstr "oui"
-
-#: openplotterI2c.py:281
-msgid "no"
-msgstr "non"
-
-#: openplotterI2c.py:306
+#: openplotterI2c.py:244
 msgid "Failed. You must select a sensor."
 msgstr "Échec. Vous devez sélectionner un capteur."
 
-#: openplotterI2c.py:311
+#: openplotterI2c.py:249
 msgid "Failed. You must provide an address."
 msgstr "Échec. Vous devez fournir une adresse."
 
-#: openplotterI2c.py:317
+#: openplotterI2c.py:255
 msgid "Failed. This address/channel is already being used."
-msgstr "Échec. Cette adresse/canal est déjà utilisé."
+msgstr "Échec. Cette adresse/canal est déjà en utilisation."
 
-#: openplotterI2c.py:418
+#: openplotterI2c.py:354
 msgid "I2C service is enabled"
 msgstr "Le service I2C est activé"
 
-#: openplotterI2c.py:420
-msgid "There is nothing to send. I2C service is disabled"
-msgstr "Il n'y a rien à envoyer. Le service I2C est désactivé"
+#: openplotterI2c.py:357
+msgid "I2C service is disabled"
+msgstr ""
 
-#: openplotterI2c.py:440
+#: openplotterI2c.py:377
 msgid "Add I2C sensor"
 msgstr "Ajouter un capteur I2C"
 
-#: openplotterI2c.py:446
+#: openplotterI2c.py:383
 msgid "Supported sensors"
 msgstr "Capteurs pris en charge"
 
-#: openplotterI2c.py:456
+#: openplotterI2c.py:393
 msgid "Detected addresses"
 msgstr "Adresses détectées"
 
-#: openplotterI2c.py:467
+#: openplotterI2c.py:404
 msgid "Multiplexer channel"
 msgstr "Canal multiplexeur"
 
-#: openplotterI2c.py:468
+#: openplotterI2c.py:405
 msgid "No multiplexer"
 msgstr "Aucun multiplexeur"
 
-#: openplotterI2c.py:468
+#: openplotterI2c.py:405
 msgid "Channel 0"
 msgstr "Canal 0"
 
-#: openplotterI2c.py:468
+#: openplotterI2c.py:405
 msgid "Channel 1"
 msgstr "Canal 1"
 
-#: openplotterI2c.py:468
+#: openplotterI2c.py:405
 msgid "Channel 2"
 msgstr "Canal 2"
 
-#: openplotterI2c.py:468
+#: openplotterI2c.py:405
 msgid "Channel 3"
 msgstr "Canal 3"
 
-#: openplotterI2c.py:468
+#: openplotterI2c.py:405
 msgid "Channel 4"
 msgstr "Canal 4"
 
-#: openplotterI2c.py:468
+#: openplotterI2c.py:405
 msgid "Channel 5"
 msgstr "Canal 5"
 
-#: openplotterI2c.py:468
+#: openplotterI2c.py:405
 msgid "Channel 6"
 msgstr "Canal 6"
 
-#: openplotterI2c.py:468
+#: openplotterI2c.py:405
 msgid "Channel 7"
 msgstr "Canal 7"
 
-#: openplotterI2c.py:558
+#: openplotterI2c.py:495
 msgid "Add raw values"
 msgstr "Ajouter des valeurs brutes"
 
-#: openplotterI2c.py:562
+#: openplotterI2c.py:499
 msgid "Rate (seconds)"
 msgstr "Taux (secondes)"
 
-#: startup.py:26
-msgid "Starting I2C sensors..."
-msgstr "Démarrage des capteurs I2C..."
+#: openplotterI2c.py:503
+msgid "Offset"
+msgstr "Décalage"
 
-#: startup.py:40
-msgid "I2C sensors started"
-msgstr "Capteurs I2C démarrés"
+#: openplotterI2c.py:507
+msgid "Scaling factor"
+msgstr "Facteur d'échelle"
 
-#: startup.py:42
-msgid "No sensors defined"
-msgstr "Aucun capteur défini"
-
-#: startup.py:44 startup.py:85
-msgid "I2C is in rescue mode"
-msgstr "I2C est en mode sauvetage"
-
-#: startup.py:54
+#: startup.py:38
 msgid "Checking I2C sensors..."
 msgstr "Vérification des capteurs I2C..."
 
-#: startup.py:75
+#: startup.py:59
 msgid "I2C disabled"
 msgstr "I2C désactivé"
 
-#: startup.py:79
+#: startup.py:63
 msgid "I2C enabled"
 msgstr "I2C activé"
 
-#: startup.py:92 startup.py:100 startup.py:109
-msgid "openplotter-i2c-read running"
-msgstr "openplotter-i2c-read en cours"
+#: startup.py:71 startup.py:81
+msgid "service running"
+msgstr ""
 
-#: startup.py:104 startup.py:113
-msgid "openplotter-i2c-read not running"
-msgstr "openplotter-i2c-read ne fonctionne pas"
+#: startup.py:75 startup.py:85
+msgid "service not running"
+msgstr ""
 
-#: startup.py:124
+#: startup.py:97
 msgid "Access to Signal K server validated"
 msgstr "Accès au serveur Signal K validé"
