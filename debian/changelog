@@ -1,6 +1,12 @@
-openplotter-i2c (4.0.12-beta) bookworm; urgency=medium
+openplotter-i2c (4.2.0-stable) bookworm; urgency=medium
 
-  * v4
+  * stable
+
+ -- Sailoog <info@sailoog.com>  Thu, 13 Jun 2024 19:13:29 +0200
+
+openplotter-i2c (4.1.3-beta) bookworm; urgency=medium
+
+  * beta
 
  -- Sailoog <info@sailoog.com>  Sat, 02 Mar 2024 10:39:39 +0100
 

@@ -1,3 +1,3 @@
-version = '4.0.12'
+version = '4.2.0'
 codeName = 'shiptogaza'
-state = 'beta'
+state = 'stable'
