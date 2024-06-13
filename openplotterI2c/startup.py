@@ -22,28 +22,12 @@ from openplotterSignalkInstaller import connections
 
 class Start():
 	def __init__(self, conf, currentLanguage):
-		self.conf = conf
-		self.initialMessage = _('Starting I2C sensors...')
-		
+		self.initialMessage = ''
+
 	def start(self):
 		green = ''
 		black = ''
 		red = ''
-
-		if self.conf.get('GENERAL', 'rescue') != 'yes':
-			data = self.conf.get('I2C', 'sensors')
-			try: i2c_sensors = eval(data)
-			except: i2c_sensors = {}
-			if i2c_sensors:
-				subprocess.call(['pkill', '-f', 'openplotter-i2c-read'])
-				subprocess.Popen('openplotter-i2c-read')
-				black = _('I2C sensors started')
-			else:
-				black = _('No sensors defined')
-		else:
-			black = _('I2C is in rescue mode')
-			subprocess.call(['pkill', '-f', 'openplotter-i2c-read'])
-
 		return {'green': green,'black': black,'red': red}
 
 class Check():
@@ -80,47 +64,41 @@ class Check():
 					if not black: black = msg
 					else: black+= ' | '+msg
 
-		if self.conf.get('GENERAL', 'rescue') == 'yes':
-			subprocess.call(['pkill', '-f', 'openplotter-i2c-read'])
-			msg = _('I2C is in rescue mode')
-			if red: red += '\n   '+msg
-			else: red = msg
+		#service
+		if i2c_sensors:
+			try:
+				subprocess.check_output(['systemctl', 'is-active', 'openplotter-i2c-read.service']).decode(sys.stdin.encoding)
+				msg = _('service running')
+				if not green: green = msg
+				else: green+= ' | '+msg
+			except: 
+				msg = _('service not running')
+				if red: red += '\n   '+msg
+				else: red = msg
+			for i in i2c_sensors:
+				if 'error' in i2c_sensors[i]:
+					if i2c_sensors[i]['error']:
+						if not red: red = i2c_sensors[i]['error']
+						else: red+= '\n    '+i2c_sensors[i]['error']
 		else:
-			test = subprocess.check_output(['ps','aux']).decode(sys.stdin.encoding)
-			if i2c_sensors:
-				if 'openplotter-i2c-read' in test: 
-					msg = _('openplotter-i2c-read running')
-					if not green: green = msg
-					else: green+= ' | '+msg
-				else:
-					subprocess.Popen('openplotter-i2c-read')
-					time.sleep(1)
-					test = subprocess.check_output(['ps','aux']).decode(sys.stdin.encoding)
-					if 'openplotter-i2c-read' in test: 
-						msg = _('openplotter-i2c-read running')
-						if not green: green = msg
-						else: green+= ' | '+msg
-					else:
-						msg = _('openplotter-i2c-read not running')
-						if red: red += '\n   '+msg
-						else: red = msg
-			else:
-				if 'openplotter-i2c-read' in test: 
-					msg = _('openplotter-i2c-read running')
-					if red: red += '\n   '+msg
-					else: red = msg
-				else:
-					msg = _('openplotter-i2c-read not running')
-					if not black: black = msg
-					else: black+= ' | '+msg
+			try:
+				subprocess.check_output(['systemctl', 'is-active', 'openplotter-i2c-read.service']).decode(sys.stdin.encoding)
+				msg = _('service running')
+				if red: red += '\n   '+msg
+				else: red = msg
+			except: 
+				msg = _('service not running')
+				if not black: black = msg
+				else: black+= ' | '+msg
+
 
 		#access
 		skConnections = connections.Connections('I2C')
 		result = skConnections.checkConnection()
-		if result[0] == 'pending' or result[0] == 'error' or result[0] == 'repeat' or result[0] == 'permissions':
+		if result[0] =='error':
 			if not red: red = result[1]
 			else: red+= '\n    '+result[1]
-		if result[0] == 'approved' or result[0] == 'validated':
+		if result[0] =='validated':
 			msg = _('Access to Signal K server validated')
 			if not black: black = msg
 			else: black+= ' | '+msg

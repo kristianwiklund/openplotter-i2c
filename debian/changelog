@@ -1,14 +1,14 @@
-openplotter-i2c (3.4.2-stable) bullseye; urgency=medium
+openplotter-i2c (4.2.0-stable) bookworm; urgency=medium
 
-  * turn humidity into a ratio
+  * stable
 
- -- Sailoog <info@sailoog.com>  Sat, 04 May 2024 09:01:38 +0200
+ -- Sailoog <info@sailoog.com>  Thu, 13 Jun 2024 19:13:29 +0200
 
-openplotter-i2c (3.4.0-stable) bullseye; urgency=medium
+openplotter-i2c (4.1.3-beta) bookworm; urgency=medium
 
-  * Add support for AHTx0 sensors
+  * beta
 
- -- Sailoog <info@sailoog.com>  Wed, 01 May 2024 13:13:40 +0200
+ -- Sailoog <info@sailoog.com>  Sat, 02 Mar 2024 10:39:39 +0100
 
 openplotter-i2c (3.3.12-stable) bullseye; urgency=medium
 

@@ -14,7 +14,7 @@ Install I2C from openplotter-settings app.
 
 Install openplotter-i2c dependencies:
 
-`sudo apt install i2c-i2c-tools python3-rpi.gpio`
+`sudo apt install openplotter-settings openplotter-signalk-installer python3-pip i2c-tools python3-smbus`
 
 Clone the repository:
 

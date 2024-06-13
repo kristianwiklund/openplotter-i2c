@@ -28,19 +28,19 @@ def main():
 
 	print(_('Installing python packages...'))
 	try:
-		subprocess.call(['pip3', 'install', 'websocket-client', 'adafruit-blinka','adafruit-circuitpython-tca9548a','adafruit-circuitpython-bme680','adafruit-circuitpython-ads1x15', 'adafruit-circuitpython-htu21d', 'adafruit-circuitpython-bmp280', 'adafruit-circuitpython-bme280', 'adafruit-circuitpython-bmp3xx', 'adafruit-circuitpython-ina260', 'adafruit-circuitpython-ina219', 'adafruit-circuitpython-lps35hw', 'adafruit-circuitpython-bh1750', 'adafruit-circuitpython-ahtx0', '-U'])
+		subprocess.call(['pip3', 'install', 'adafruit-blinka','adafruit-circuitpython-tca9548a','adafruit-circuitpython-bme680','adafruit-circuitpython-ads1x15', 'adafruit-circuitpython-htu21d', 'adafruit-circuitpython-bmp280', 'adafruit-circuitpython-bme280', 'adafruit-circuitpython-bmp3xx', 'adafruit-circuitpython-ina260', 'adafruit-circuitpython-ina219', 'adafruit-circuitpython-lps35hw', 'adafruit-circuitpython-bh1750','adafruit-circuitpython-ahtx0', '-U', '--break-system-packages'])
 		print(_('DONE'))
 	except Exception as e: print(_('FAILED: ')+str(e))
 
-	print(_('Checking access to Signal K server...'))
+	print(_('Creating services...'))
 	try:
-		from openplotterSignalkInstaller import connections
-		skConnections = connections.Connections('I2C')
-		result = skConnections.checkConnection()
-		if result[1]: print(result[1])
-		else: print(_('DONE'))
+		fo = open('/etc/systemd/system/openplotter-i2c-read.service', "w")
+		fo.write( '[Service]\nEnvironment=OPrescue=0\nEnvironmentFile=/boot/firmware/config.txt\nExecStart=openplotter-i2c-read $OPrescue\nUser='+conf2.user+'\nRestart=always\nRestartSec=3\n\n[Install]\nWantedBy=local-fs.target')
+		fo.close()
+		subprocess.call(['systemctl', 'daemon-reload'])
+		print(_('DONE'))
 	except Exception as e: print(_('FAILED: ')+str(e))
-
+	
 	print(_('Setting version...'))
 	try:
 		conf2.set('APPS', 'i2c', version)
