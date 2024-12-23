@@ -286,6 +286,17 @@ def main():
 							if i2c_sensors[i]['address']:
 								instances.append({'name':i,'type':'ATHX0','tick':[now,now],'sensor':i2c_sensors[i],'object':adafruit_ahtx0.AHTx0(muxInstances[i2c_sensors[i]['address']][i2c_sensors[i]['channel']-1])})
 
+					elif i2c_sensors[i]['type'] == 'DPS310':
+						import adafruit_dps310
+						if i2c_sensors[i]['channel'] == 0:
+							if i2c_sensors[i]['address']:
+								instances.append({'name':i,'type':'DPS310','tick':[now,now],'sensor':i2c_sensors[i],'object':adafruit_dps310.basic.DPS310(i2c, address=int(i2c_sensors[i]['address'], 16))})
+						else:
+							if i2c_sensors[i]['address']:
+								instances.append({'name':i,'type':'DPS310','tick':[now,now],'sensor':i2c_sensors[i],'object':adafruit_dps310.basic.DPS310(muxInstances[i2c_sensors[i]['address']][i2c_sensors[i]['channel']-1])})
+                                                                                                                        
+                                                                                                        
+
 				except Exception as e:
 					error = 'Error processing '+i+': '+str(e)
 					i2c_sensors[i]['error'] = error
@@ -732,6 +743,35 @@ def main():
 											humidityValue2 = humidityValue
 											Erg = getPaths(Erg,humidityValue,humidityValue2,humidityKey,humidityOffset,humidityFactor,humidityRaw)
 											instances[index]['tick'][1] = time.time()
+
+								elif i['type'] == 'DPS310':
+									pressureKey = i['sensor']['data'][0]['SKkey']
+									temperatureKey = i['sensor']['data'][1]['SKkey']
+
+									if temperatureKey:
+										temperatureRaw = i['object'].temperature
+										temperatureRate = i['sensor']['data'][1]['rate']
+										temperatureOffset = i['sensor']['data'][1]['offset']
+										temperatureFactor = i['sensor']['data'][1]['factor']
+										tick0 = time.time()
+										if tick0 - i['tick'][0] > temperatureRate:
+											temperatureValue = temperatureRaw
+											try: temperatureValue2 = float(temperatureValue)+273.15
+											except: temperatureValue2 = ''
+											Erg = getPaths(Erg,temperatureValue,temperatureValue2,temperatureKey,temperatureOffset,temperatureFactor,temperatureRaw)
+											instances[index]['tick'][1] = time.time()
+									if pressureKey:
+										pressureRaw  = i['object'].pressure
+										pressureRate = i['sensor']['data'][0]['rate']
+										pressureOffset = i['sensor']['data'][0]['offset']
+										pressureFactor = i['sensor']['data'][0]['factor']
+										tick0 = time.time()
+										if tick0 - i['tick'][1] > pressureRate:
+											pressureValue = pressureRaw / 100000
+											pressureValue2 = pressureValue
+											Erg = getPaths(Erg,pressureValue,pressureValue2,pressureKey,pressureOffset,pressureFactor,pressureRaw)
+											instances[index]['tick'][0] = time.time()
+
 
 							except Exception as e:
 								if debug: 
