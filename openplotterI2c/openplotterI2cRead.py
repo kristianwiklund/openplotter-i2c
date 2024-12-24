@@ -773,7 +773,7 @@ def main():
 										pressureFactor = i['sensor']['data'][0]['factor']
 										tick0 = time.time()
 										if tick0 - i['tick'][1] > pressureRate:
-											pressureValue = pressureRaw / 100000
+											pressureValue = pressureRaw * 100
 											pressureValue2 = pressureValue
 											Erg = getPaths(Erg,pressureValue,pressureValue2,pressureKey,pressureOffset,pressureFactor,pressureRaw)
                                                                                         
