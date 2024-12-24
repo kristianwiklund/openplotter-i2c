@@ -292,8 +292,10 @@ def main():
 							if i2c_sensors[i]['address']:
 								instances.append({'name':i,'type':'DPS310','tick':[now,now],'sensor':i2c_sensors[i],'object':adafruit_dps310.basic.DPS310(i2c, address=int(i2c_sensors[i]['address'], 16))})
 						else:
-							if i2c_sensors[i]['address']:
-								instances.append({'name':i,'type':'DPS310','tick':[now,now],'sensor':i2c_sensors[i],'object':adafruit_dps310.basic.DPS310(muxInstances[i2c_sensors[i]['address']][i2c_sensors[i]['channel']-1])})
+							pass
+						# unable to test this - mux mode should be disabled in the config
+							#if i2c_sensors[i]['address']:
+								#instances.append({'name':i,'type':'DPS310','tick':[now,now],'sensor':i2c_sensors[i],'object':adafruit_dps310.basic.DPS310(muxInstances[i2c_sensors[i]['address']][i2c_sensors[i]['channel']-1])})
                                                                                                                         
                                                                                                         
 
@@ -750,6 +752,8 @@ def main():
 
 									if temperatureKey:
 										temperatureRaw = i['object'].temperature
+										if debug:
+											print("DPS310 temperature:",temperatureRaw)
 										temperatureRate = i['sensor']['data'][1]['rate']
 										temperatureOffset = i['sensor']['data'][1]['offset']
 										temperatureFactor = i['sensor']['data'][1]['factor']
@@ -762,6 +766,8 @@ def main():
 											instances[index]['tick'][1] = time.time()
 									if pressureKey:
 										pressureRaw  = i['object'].pressure
+										if debug:
+											print("DPS310 pressure:",pressureRaw)
 										pressureRate = i['sensor']['data'][0]['rate']
 										pressureOffset = i['sensor']['data'][0]['offset']
 										pressureFactor = i['sensor']['data'][0]['factor']
